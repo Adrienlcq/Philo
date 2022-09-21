@@ -6,11 +6,55 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:10:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/06 16:28:58 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/21 15:33:35 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
+
+int	init_philo(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	while (++i < info->nb_philo)
+	{
+		if (pthread_mutex_init(&info->fork[i], NULL) != 0) //creer un mutex fourchette pour chaque philo
+		{
+			
+			printf("Error\nMMutex init failed\n");
+			return (0);
+		}
+		info->philo[i].id = i; //id du philo
+		info->philo[i].fork_l = i;
+		info->philo[i].fork_r = (i + 1) % info->nb_philo; //pour le dernier philo, la fourchette droite est la premiere fourchette
+		info->philo[i].info = info; //copie de la structure info dans la structure philo
+	}
+	return (1);
+}
+
+int	init_mutex(t_info *info)
+{
+	int	i;
+
+	i = -1;
+	if (pthread_mutex_init(&info->print, NULL) != 0) //creer un mutex pour l'affichage
+	{
+		printf("Error\nMutex init failed\n");
+		return (0);
+	}
+	if (pthread_mutex_init(&info->dead, NULL) != 0) //creer un mutex pour la mort
+	{
+		printf("Error\nMutex init failed\n");
+		return (0);
+	}
+	if (pthread_mutex_init(&info->eat, NULL) != 0) //creer un mutex pour le nombre de fois qu'un philo a mange
+	{
+		printf("Error\nMutex init failed\n");
+		return (0);
+	}
+	return (1);
+}
 
 int	check_nb_philo(int nb_philo)
 {
@@ -73,4 +117,9 @@ int main(int ac, char **av)
 	}
 	if (!parse_arg(av, &info))
 		return (1);
+	if (!(init_philo(&info)) || !(init_mutex(&info)))
+		return (1);
+	if (!(start_philo(&info)))
+		return (1);
+	return (0);
 }

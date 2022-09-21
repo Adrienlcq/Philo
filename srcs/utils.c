@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 16:38:08 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/06 16:27:39 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/21 13:59:38 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,16 @@ int	ft_isdigit(char *s)
 	return (1);
 }
 
+int	ft_strlen(char *s)
+{
+	int i;
+
+	i = 0;
+	while (s[i])
+		i++;
+	return (i);
+}
+
 int	ft_check_overflow(char **av)
 {
 	int		i;
@@ -70,6 +80,8 @@ int	ft_check_overflow(char **av)
 			printf("Error\nInvalid number (overflow)\n");
 			return (0);
 		}
+		if (ft_strlen(av[i]) > 10)
+			printf("Error\nInvalid number (overflow)\n");
 	}
 	return (1);
 }
