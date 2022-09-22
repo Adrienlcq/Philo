@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:04:53 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/22 15:07:07 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:38:57 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ typedef struct s_philo
 	int				id;
 	pthread_t		thread;
 	struct s_info 	*info;
-	int				last_meal;
+	long long		last_meal;
 	int				nb_meals;
 }		t_philo;
 

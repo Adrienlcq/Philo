@@ -6,18 +6,18 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:02:50 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/22 15:09:25 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:52:59 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../includes/philo.h"
 
-int	ft_get_time(void)
+long long	ft_get_time(void)
 {
 	struct timeval time;
 
 	gettimeofday(&time, NULL);
-	return ((time.tv_sec * 1000 + time.tv_usec / 1000));
+	return ((time.tv_sec * 1000) + (time.tv_usec / 1000));
 }
 
 int	check_death(t_info *info)
@@ -111,6 +111,7 @@ int	start_philo(t_info *info)
 			printf("Error: thread creation failed\n");
 			return (0);
 		}
+		philo[i].last_meal = ft_get_time();
 		i++;
 	}
 	usleep(1000);
