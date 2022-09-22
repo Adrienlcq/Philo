@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:02:50 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/21 15:51:15 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:09:25 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,28 @@ int	ft_get_time(void)
 
 	gettimeofday(&time, NULL);
 	return ((time.tv_sec * 1000 + time.tv_usec / 1000));
+}
+
+int	check_death(t_info *info)
+{
+	int	i;
+
+	while (1)
+	{
+		i = -1;
+		while (++i < info->nb_philo)
+		{
+			if (ft_get_time() - info->philo[i].last_meal > info->time_to_die)
+			{
+				//pthread_mutex_lock(&info->print);
+				info->is_dead = 1;
+				printf("%lld %d died\n", ft_get_time() - info->timestamp, i + 1);
+				//pthread_mutex_unlock(&info->dead);
+				return (0);
+			}
+		}
+	}
+	return (1);
 }
 
 void	print_status(t_philo *philo, char *status)
@@ -49,7 +71,7 @@ void	eat(t_philo *philo)
 	print_status(philo, "has taken a fork");
 	pthread_mutex_lock(&info->fork[philo->fork_r]);
 	print_status(philo, "has taken a fork");
-	//philo->last_meal = ft_get_time();
+	philo->last_meal = ft_get_time();
 	print_status(philo, "is eating");
 	//philo->nb_meals++;
 	ft_usleep(info->time_to_eat);
@@ -62,10 +84,9 @@ void	*routine(void *arg)
 	t_philo	*philo;
 
 	philo = (t_philo *)arg;
-	printf("JE suis philo numero: %d\n", philo->id + 1);
-	if (philo->id % 2)
+	if (philo->id % 2) // pour opti et eviter les morts precoces des philos
 		usleep(15000);
-	while (1)
+	while (philo->info->is_dead == 0)
 	{
 		eat(philo);
 		print_status(philo, "is sleeping");
@@ -92,10 +113,12 @@ int	start_philo(t_info *info)
 		}
 		i++;
 	}
-
+	usleep(1000);
+	check_death(info);
 	//Fonction pour checker la mort et le nombre de repas
-	printf("Je suis avant le usleep\n");
 	usleep(5000000); // A changer plus tard
+	printf("JE SUIS LA\n");
+	//pthread_mutex_unlock(&info->print);
 	i = 0;
 	while (i <= info->nb_philo)
 		pthread_detach(philo[i].thread);

@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:04:53 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/21 15:33:56 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/22 15:07:07 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ typedef struct s_info
 	int	time_to_eat;
 	int	time_to_sleep;
 	int	nb_must_eat; // argument optionnel
+	int	is_dead;
 	pthread_mutex_t fork[200];
 	pthread_mutex_t dead;
 	pthread_mutex_t print;
