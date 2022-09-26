@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:10:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/22 15:39:49 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/26 17:04:43 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	init_philo(t_info *info)
 		}
 		info->philo[i].id = i; //id du philo
 		info->philo[i].fork_l = i;
-		info->philo[i].fork_r = (i + 1) % info->nb_philo; //pour le dernier philo, la fourchette droite est la premiere fourchette
+		info->philo[i].fork_r = i + 1 % info->nb_philo; //pour le dernier philo, la fourchette droite est la premiere fourchette
 		info->philo[i].info = info; //copie de la structure info dans la structure philo
 		info->philo[i].last_meal = 0;
 		info->philo[i].nb_meals = 0;
@@ -46,6 +46,11 @@ int	init_mutex(t_info *info)
 		return (0);
 	}
 	if (pthread_mutex_init(&info->dead, NULL) != 0) //creer un mutex pour la mort
+	{
+		printf("Error\nMutex init failed\n");
+		return (0);
+	}
+	if (pthread_mutex_init(&info->last_meal, NULL) != 0) //creer un mutex pour le nombre de fois qu'un philo a mange
 	{
 		printf("Error\nMutex init failed\n");
 		return (0);

@@ -25,7 +25,7 @@ OBJS            =       ${SRCS:.c=.o}
 
 RM          =       rm -rf
 
-FLAGS       =       -Wall -Wextra -Werror -pthread -g3
+FLAGS       =       -Wall -Wextra -Werror -pthread -g3 -fsanitize=thread
 
 %.o : %.c ./includes/push_swap.h
 						@${CC} ${FLAGS} -I${INCLUDES_DIR} -c $< -o ${<:.c=.o}
