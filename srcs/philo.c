@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:10:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/26 17:04:43 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/27 14:40:26 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -125,6 +125,8 @@ int main(int ac, char **av)
 	}
 	if (!parse_arg(av, &info))
 		return (1);
+	//printf("Valeur de nb_must_eat : %d\n", info.nb_must_eat);
+	//printf("Nombre de repas du dernier philo : %d\n", info.philo[info.nb_philo].nb_meals);
 	if (!(init_philo(&info)) || !(init_mutex(&info)))
 		return (1);
 	if (!(start_philo(&info)))

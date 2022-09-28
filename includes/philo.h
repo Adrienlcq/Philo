@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:04:53 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/26 16:12:05 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:07:19 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <string.h>
 # include <pthread.h>
 # include <sys/time.h>
-
 
 typedef struct s_philo
 {
@@ -42,6 +41,7 @@ typedef struct s_info
 	int	time_to_sleep;
 	int	nb_must_eat; // argument optionnel
 	int	is_dead;
+	int	is_full;
 	pthread_mutex_t print;
 	pthread_mutex_t fork[210];
 	pthread_mutex_t dead;
@@ -55,6 +55,7 @@ long	ft_atol(char *str);
 int		ft_isdigit(char *s);
 int		ft_check_overflow(char **av);
 int		start_philo(t_info *info);
+int 	check_meals(t_info *info, t_philo *philo);
 
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 16:38:08 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/21 13:59:38 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/09/27 15:43:42 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,20 @@ int	ft_check_overflow(char **av)
 		if (ft_strlen(av[i]) > 10)
 			printf("Error\nInvalid number (overflow)\n");
 	}
+	return (1);
+}
+
+int check_meals(t_info *info, t_philo *philo)
+{
+	int i;
+
+	i = 1;
+	while (i < info->nb_philo)
+	{
+		if (philo[i].nb_meals < info->nb_must_eat)
+			return (0);
+		i++;
+	}
+	info->is_full = 1;
 	return (1);
 }
