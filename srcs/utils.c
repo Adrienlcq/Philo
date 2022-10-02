@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 16:38:08 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/01 17:25:17 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:48:48 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ long	ft_atol(char *str)
 
 int	ft_isdigit(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -58,7 +58,7 @@ int	ft_isdigit(char *s)
 
 int	ft_strlen(char *s)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (s[i])
@@ -89,9 +89,9 @@ int	ft_check_overflow(char **av)
 	return (1);
 }
 
-int check_meals(t_info *info, t_philo *philo)
+int	check_meals(t_info *info, t_philo *philo)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (1)

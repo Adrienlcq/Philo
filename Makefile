@@ -15,6 +15,7 @@ NAME	        =		philo
 
 SRCS            =       srcs/philo.c\
 						srcs/utils.c\
+						srcs/utils2.c\
 						srcs/routine.c\
 						srcs/philo_action.c
 

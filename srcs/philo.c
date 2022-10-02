@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:10:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 16:16:33 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:45:48 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,19 +19,18 @@ int	init_philo(t_info *info)
 	i = -1;
 	while (++i < info->nb_philo)
 	{
-		if (pthread_mutex_init(&info->fork[i], NULL) != 0) //creer un mutex fourchette pour chaque philo
+		if (pthread_mutex_init(&info->fork[i], NULL) != 0)
 		{
-			
 			printf("Error\nMutex init failed\n");
 			return (0);
 		}
-		info->philo[i].id = i; //id du philo
+		info->philo[i].id = i;
 		info->philo[i].fork_l = i;
 		if (i == info->nb_philo - 1)
 			info->philo[i].fork_r = 0;
 		else
-			info->philo[i].fork_r = i + 1 % info->nb_philo; //pour le dernier philo, la fourchette droite est la premiere fourchette
-		info->philo[i].info = info; //copie de la structure info dans la structure philo
+			info->philo[i].fork_r = i + 1 % info->nb_philo;
+		info->philo[i].info = info;
 		info->philo[i].last_meal = 0;
 		info->philo[i].nb_meals = 0;
 	}
@@ -43,22 +42,22 @@ int	init_mutex(t_info *info)
 	int	i;
 
 	i = -1;
-	if (pthread_mutex_init(&info->print, NULL) != 0) //creer un mutex pour l'affichage
+	if (pthread_mutex_init(&info->print, NULL) != 0)
 	{
 		printf("Error\nMutex init failed\n");
 		return (0);
 	}
-	if (pthread_mutex_init(&info->dead, NULL) != 0) //creer un mutex pour la mort
+	if (pthread_mutex_init(&info->dead, NULL) != 0)
 	{
 		printf("Error\nMutex init failed\n");
 		return (0);
 	}
-	if (pthread_mutex_init(&info->last_meal, NULL) != 0) //creer un mutex pour le nombre de fois qu'un philo a mange
+	if (pthread_mutex_init(&info->last_meal, NULL) != 0)
 	{
 		printf("Error\nMutex init failed\n");
 		return (0);
 	}
-	if (pthread_mutex_init(&info->eat, NULL) != 0) //creer un mutex pour le nombre de fois qu'un philo a mange
+	if (pthread_mutex_init(&info->eat, NULL) != 0)
 	{
 		printf("Error\nMutex init failed\n");
 		return (0);
@@ -81,30 +80,9 @@ int	check_nb_philo(int nb_philo)
 	return (1);
 }
 
-int	recover_info(char **av, t_info *info)
-{
-	if (!ft_check_overflow(av))
-		return (0);
-	info->nb_philo = ft_atol(av[1]);
-	info->time_to_die = ft_atol(av[2]);
-	info->time_to_eat = ft_atol(av[3]);
-	info->time_to_sleep = ft_atol(av[4]);
-	info->is_dead = 0;
-	info->is_full = 0;
-	info->nb_thread_detached = 0;
-	if (!check_nb_philo(info->nb_philo))
-		return (0);
-	if (av[5])
-		info->nb_must_eat = ft_atol(av[5]);
-	else
-		info->nb_must_eat = -1;
-	info->is_dead = 0;
-	return (1);
-}
-
 int	parse_arg(char **av, t_info *info)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (av[++i])
@@ -120,7 +98,7 @@ int	parse_arg(char **av, t_info *info)
 	return (1);
 }
 
-int main(int ac, char **av)
+int	main(int ac, char **av)
 {
 	t_info	info;
 
@@ -131,8 +109,6 @@ int main(int ac, char **av)
 	}
 	if (!parse_arg(av, &info))
 		return (1);
-	//printf("Valeur de nb_must_eat : %d\n", info.nb_must_eat);
-	//printf("Nombre de repas du dernier philo : %d\n", info.philo[info.nb_philo].nb_meals);
 	if (!(init_philo(&info)) || !(init_mutex(&info)))
 		return (1);
 	if (!(start_philo(&info)))
