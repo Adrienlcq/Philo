@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:04:53 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 18:51:13 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:52:16 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,5 +68,7 @@ long long	ft_get_time(void);
 int			check_nb_philo(int nb_philo);
 int			create_threads(t_info *info, t_philo *philo);
 int			philo_dead(int *check, int i, t_info *info);
+void		unlock_forks(t_info *info, t_philo *philo, int nb);
+void		*routine(void *arg);
 
 #endif

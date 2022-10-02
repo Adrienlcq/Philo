@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 18:48:56 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 18:51:03 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/02 18:51:53 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,4 +41,15 @@ int	philo_dead(int *check, int i, t_info *info)
 	info->is_dead = 1;
 	pthread_mutex_unlock(&info->dead);
 	return (0);
+}
+
+void	unlock_forks(t_info *info, t_philo *philo, int nb)
+{
+	if (nb == 1)
+		pthread_mutex_unlock(&info->fork[philo->fork_l]);
+	else if (nb == 2)
+	{
+		pthread_mutex_unlock(&info->fork[philo->fork_l]);
+		pthread_mutex_unlock(&info->fork[philo->fork_r]);
+	}
 }
