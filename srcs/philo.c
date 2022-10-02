@@ -92,8 +92,6 @@ int	recover_info(char **av, t_info *info)
 	info->is_dead = 0;
 	info->is_full = 0;
 	info->nb_thread_detached = 0;
-	info->envoie_routine = 0;
-	//info->sortie_routine = 0;
 	if (!check_nb_philo(info->nb_philo))
 		return (0);
 	if (av[5])

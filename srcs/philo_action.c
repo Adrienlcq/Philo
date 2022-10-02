@@ -61,7 +61,7 @@ int	print_status(t_info *info, int id, char *status, int dead)
 		return (-1);
 	}
 	pthread_mutex_unlock(&info->dead);
-	printf("\033[30;01m%lld\033[00m \033[37;01m%d\033[00m %s\n", time, id + 1, status);
+	printf("%lld %d %s\n", time, id + 1, status);
 	//printf("%lld %d %s\n", time, id + 1, status);
 	if (dead == 0)
 		pthread_mutex_unlock(&info->print);

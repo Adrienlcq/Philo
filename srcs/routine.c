@@ -33,7 +33,7 @@ int	check_death(t_info *info)
 			{
 				check = 1;
 				pthread_mutex_unlock(&info->last_meal);
-				print_status(info, i, "\033[31;01mdied\033[00m", 1);
+				print_status(info, i, "died", 1);
 				pthread_mutex_lock(&info->dead);
 				info->is_dead = 1;
 				pthread_mutex_unlock(&info->dead);
@@ -52,21 +52,26 @@ void	eat(t_philo *philo)
 	t_info	*info;
 
 	info = philo->info;
-	printf("JE SUIS AU DEBUT DE LA FONCTION EAT ET JE SUIS PHILO: %d\n", philo->id);
 	pthread_mutex_lock(&(info->fork[philo->fork_l]));
-	if (print_status(info, philo->id, "\033[34;01mhas taken a fork\033[00m", 0) == -1)
+	if (print_status(info, philo->id, "has taken a fork", 0) == -1)
 	{
 		pthread_mutex_unlock(&(info->fork[philo->fork_l]));
 		return ;
 	}
+	if (info->nb_philo == 1)
+	{
+		ft_usleep(info->time_to_die + 5, info);
+		pthread_mutex_unlock(&(info->fork[philo->fork_l]));
+		return ;
+	}
 	pthread_mutex_lock(&(info->fork[philo->fork_r]));
-	if (print_status(info, philo->id, "\033[34;01mhas taken a fork\033[00m", 0) == -1)
+	if (print_status(info, philo->id, "has taken a fork", 0) == -1)
 	{
 		pthread_mutex_unlock(&(info->fork[philo->fork_l]));
 		pthread_mutex_unlock(&(info->fork[philo->fork_r]));
 		return ;
 	}
-	if (print_status(info, philo->id, "\033[32;01mis eating\033[00m", 0) == -1)
+	if (print_status(info, philo->id, "is eating", 0) == -1)
 	{
 		pthread_mutex_unlock(&(info->fork[philo->fork_l]));
 		pthread_mutex_unlock(&(info->fork[philo->fork_r]));
@@ -95,34 +100,22 @@ void	*routine(void *arg)
 
 	philo = (t_philo *)arg;
 	info = philo->info;
-	info->envoie_routine++;
 	if (philo->id % 2)
 		usleep(50000);
 	while (1)
 	{
-		if (info->is_dead == 1 || info->is_full == 1)
-		{
-			pthread_mutex_unlock(&info->dead);
-			info->sortie_routine_dead_full++;
-			break ;
-		}
 		if (ft_lock_eat_unlock(info, philo) == -1)
 			break ;
-		if (print_status(info, philo->id, "\033[36;01mis sleeping\033[00m", 0) == -1)
+		if (print_status(info, philo->id, "is sleeping", 0) == -1)
 			break ;
 		if (ft_usleep(info->time_to_sleep, info) == -1)
 			break ;
-		pthread_mutex_lock(&info->dead);
-		pthread_mutex_unlock(&info->dead);
-		if (print_status(info, philo->id, "\033[35;01mis thinking\033[00m", 0) == -1)
+		if (print_status(info, philo->id, "is thinking", 0) == -1)
 			break ;
-		/* if (info->is_full == 1)
-		{
-			info->sortie_routine++;
+		if (info->is_full == 1)
 			break ;
-		} */
 	}
-	info->sortie_routine_normal++;
+	info->nb_thread_detached += 1;
 	return (0);
 }
 
@@ -131,16 +124,12 @@ int	ft_detach_threads(t_info *info)
 	int	i;
 
 	i = 0;
-	while (i <= info->nb_philo)
+	while (i < info->nb_philo)
 	{
 		if (pthread_detach(info->philo[i].thread) != 0)
-		{
-			printf("problem detach\n");
 			return (1);
-		}
 		i++;
 	}
-	printf("Nombre de threads detaches : %d\n", i);
 	return (0);
 }
 
@@ -167,13 +156,11 @@ int	start_philo(t_info *info)
 	}
 	usleep(1000);
 	check_death(info);
-	//pthread_mutex_unlock(&info->print);
 	usleep(5000000);
-	//printf("Valeur de info->a : %d\n", info->a);
-	printf("Je vais rentrer dans le detach\n");
+	if (info->nb_thread_detached != info->nb_philo)
+		pthread_mutex_unlock(&info->print);
+	while (info->nb_thread_detached != info->nb_philo)
+		usleep(1000);
 	ft_detach_threads(info);
-	printf("Nombre de threads entres dans la routine : %d\n", info->envoie_routine);
-	printf("Nombre de threads sortis de la routine normalement: %d \n", info->sortie_routine_normal - info->sortie_routine_normal);
-	printf("Nombre de threads sortis de la routine a cause de is_dead ou is_full : %d\n", info->sortie_routine_dead_full);
 	return (1);
 }

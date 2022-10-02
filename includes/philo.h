@@ -43,9 +43,6 @@ typedef struct s_info
 	int	is_dead;
 	int	is_full;
 	int nb_thread_detached; //check
-	int envoie_routine; //check
-	int sortie_routine_normal; //check
-	int sortie_routine_dead_full; //check
 	pthread_mutex_t print;
 	pthread_mutex_t fork[200];
 	pthread_mutex_t dead;
