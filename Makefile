@@ -15,17 +15,18 @@ NAME	        =		philo
 
 SRCS            =       srcs/philo.c\
 						srcs/utils.c\
-						srcs/routine.c
+						srcs/routine.c\
+						srcs/philo_action.c
 
 INCLUDES_DIR     =       includes/
 
-CC              =       gcc
+CC              =       clang
 
 OBJS            =       ${SRCS:.c=.o}
 
 RM          =       rm -rf
 
-FLAGS       =       -Wall -Wextra -Werror -pthread -g3 -fsanitize=thread
+FLAGS       =       -Wall -Wextra -Werror -pthread -g3 #-fsanitize=thread
 
 %.o : %.c ./includes/push_swap.h
 						@${CC} ${FLAGS} -I${INCLUDES_DIR} -c $< -o ${<:.c=.o}

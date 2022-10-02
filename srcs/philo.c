@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:10:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/09/27 14:40:26 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/02 16:16:33 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,15 @@ int	init_philo(t_info *info)
 		if (pthread_mutex_init(&info->fork[i], NULL) != 0) //creer un mutex fourchette pour chaque philo
 		{
 			
-			printf("Error\nMMutex init failed\n");
+			printf("Error\nMutex init failed\n");
 			return (0);
 		}
 		info->philo[i].id = i; //id du philo
 		info->philo[i].fork_l = i;
-		info->philo[i].fork_r = i + 1 % info->nb_philo; //pour le dernier philo, la fourchette droite est la premiere fourchette
+		if (i == info->nb_philo - 1)
+			info->philo[i].fork_r = 0;
+		else
+			info->philo[i].fork_r = i + 1 % info->nb_philo; //pour le dernier philo, la fourchette droite est la premiere fourchette
 		info->philo[i].info = info; //copie de la structure info dans la structure philo
 		info->philo[i].last_meal = 0;
 		info->philo[i].nb_meals = 0;
@@ -86,6 +89,11 @@ int	recover_info(char **av, t_info *info)
 	info->time_to_die = ft_atol(av[2]);
 	info->time_to_eat = ft_atol(av[3]);
 	info->time_to_sleep = ft_atol(av[4]);
+	info->is_dead = 0;
+	info->is_full = 0;
+	info->nb_thread_detached = 0;
+	info->envoie_routine = 0;
+	//info->sortie_routine = 0;
 	if (!check_nb_philo(info->nb_philo))
 		return (0);
 	if (av[5])
