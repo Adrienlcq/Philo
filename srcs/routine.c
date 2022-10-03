@@ -26,7 +26,7 @@ int	check_death(t_info *info)
 		while (++i < info->nb_philo && info->is_dead == 0)
 		{
 			if (info->nb_must_eat >= 0)
-				if (check_meals(info, philo) == 1) // check meals renvoie tjrs 1
+				if (check_meals(info, philo) == 1)
 					return (1);
 			pthread_mutex_lock(&info->last_meal);
 			if (ft_get_time() - philo[i].last_meal > info->time_to_die)
@@ -100,10 +100,10 @@ int	ft_detach_threads(t_info *info)
 	while (i < info->nb_philo)
 	{
 		if (pthread_detach(info->philo[i].thread) != 0)
-			return (1);
+			return (0);
 		i++;
 	}
-	return (0);
+	return (1);
 }
 
 int	start_philo(t_info *info)
@@ -112,7 +112,6 @@ int	start_philo(t_info *info)
 	t_philo	*philo;
 
 	philo = info->philo;
-	i = info->nb_philo - 1;
 	if (create_threads(info, philo) == 0)
 		return (0);
 	usleep(1000);

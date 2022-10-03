@@ -94,19 +94,16 @@ int	check_meals(t_info *info, t_philo *philo)
 	int	i;
 
 	i = 0;
-	while (1)
+	while (i < info->nb_philo)
 	{
-		while (i < info->nb_philo)
-		{
-			if (philo[i].nb_meals < info->nb_must_eat)
-				break ;
-			i++;
-		}
-		if (i == info->nb_philo)
-		{
-			info->is_full = 1;
-			return (1);
-		}
+		if (philo[i].nb_meals < info->nb_must_eat)
+			break ;
+		i++;
 	}
-	return (1);
+	if (i == info->nb_philo)
+	{
+		info->is_full = 1;
+		return (1);
+	}
+	return (0);
 }

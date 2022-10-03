@@ -22,6 +22,7 @@ int	recover_info(char **av, t_info *info)
 	info->time_to_sleep = ft_atol(av[4]);
 	info->is_dead = 0;
 	info->is_full = 0;
+	info->nb_thread_detached = 0;
 	if (!check_nb_philo(info->nb_philo))
 		return (0);
 	if (av[5])

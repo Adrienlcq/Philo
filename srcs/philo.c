@@ -19,7 +19,7 @@ int	init_philo(t_info *info)
 	i = -1;
 	while (++i < info->nb_philo)
 	{
-		if (pthread_mutex_init(&info->fork[i], NULL) != 0) // initialisation de quel mutex ?
+		if (pthread_mutex_init(&info->fork[i], NULL) != 0)
 		{
 			printf("Error\nMutex init failed\n");
 			return (0);
@@ -39,9 +39,6 @@ int	init_philo(t_info *info)
 
 int	init_mutex(t_info *info)
 {
-	int	i; // pas besoin ???
-
-	i = -1;
 	if (pthread_mutex_init(&info->print, NULL) != 0)
 	{
 		printf("Error\nMutex init failed\n");
