@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:10:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/03 10:23:37 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:35:06 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ int	init_mutex(t_info *info)
 		printf("Error\nMutex init failed\n");
 		return (0);
 	}
+	if (!init_mutex2(info))
+		return (0);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/25 16:38:08 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 18:48:48 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:19:16 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,13 +96,20 @@ int	check_meals(t_info *info, t_philo *philo)
 	i = 0;
 	while (i < info->nb_philo)
 	{
+		pthread_mutex_lock(&info->eat);
 		if (philo[i].nb_meals < info->nb_must_eat)
+		{
+			pthread_mutex_unlock(&info->eat);
 			break ;
+		}
+		pthread_mutex_unlock(&info->eat);
 		i++;
 	}
 	if (i == info->nb_philo)
 	{
+		pthread_mutex_lock(&info->full_eat);
 		info->is_full = 1;
+		pthread_mutex_unlock(&info->full_eat);
 		return (1);
 	}
 	return (0);

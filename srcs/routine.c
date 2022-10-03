@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:02:50 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/03 10:58:28 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:37:46 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,18 +77,19 @@ void	*routine(void *arg)
 		usleep(10000);
 	while (1)
 	{
-		if (ft_lock_eat_unlock(info, philo) == -1)
+		if (!actions(info, philo))
 			break ;
-		if (print_status(info, philo->id, "is sleeping", 0) == -1)
-			break ;
-		if (ft_usleep(info->time_to_sleep, info) == -1)
-			break ;
-		if (print_status(info, philo->id, "is thinking", 0) == -1)
-			break ;
+		pthread_mutex_lock(&info->full_eat);
 		if (info->is_full == 1)
+		{
+			pthread_mutex_unlock(&info->full_eat);
 			break ;
+		}
+		pthread_mutex_unlock(&info->full_eat);
 	}
+	pthread_mutex_lock(&info->nb_thread_detached_mutex);
 	info->nb_thread_detached += 1;
+	pthread_mutex_unlock(&info->nb_thread_detached_mutex);
 	return (0);
 }
 
@@ -109,18 +110,29 @@ int	ft_detach_threads(t_info *info)
 int	start_philo(t_info *info)
 {
 	int		i;
+	int		nb_thread_detached;
 	t_philo	*philo;
 
+	nb_thread_detached = 0;
 	philo = info->philo;
 	if (create_threads(info, philo) == 0)
 		return (0);
 	usleep(1000);
 	check_death(info);
+	pthread_mutex_lock(&info->nb_thread_detached_mutex);
+	nb_thread_detached = info->nb_thread_detached;
+	pthread_mutex_unlock(&info->nb_thread_detached_mutex);
 	usleep(5000000);
-	if (info->nb_thread_detached != info->nb_philo)
-		pthread_mutex_unlock(&info->print);
-	while (info->nb_thread_detached != info->nb_philo)
-		usleep(1000);
+	//pthread_mutex_lock(&info->nb_thread_detached_mutex);
+	//if (nb_thread_detached != info->nb_philo)
+	//{
+	//	usleep(5555555);
+		//pthread_mutex_unlock(&info->print);
+	//}
+	//pthread_mutex_unlock(&info->nb_thread_detached_mutex);
+	/* while (info->nb_thread_detached != info->nb_philo)
+		usleep(1000); */
+	//usleep(5000000);
 	ft_detach_threads(info);
 	return (1);
 }

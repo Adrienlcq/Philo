@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/02 18:48:56 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 18:51:53 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:37:55 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,7 @@ int	philo_dead(int *check, int i, t_info *info)
 	pthread_mutex_lock(&info->dead);
 	info->is_dead = 1;
 	pthread_mutex_unlock(&info->dead);
+	pthread_mutex_unlock(&info->print);
 	return (0);
 }
 
@@ -53,4 +54,32 @@ void	unlock_forks(t_info *info, t_philo *philo, int nb)
 		pthread_mutex_unlock(&info->fork[philo->fork_l]);
 		pthread_mutex_unlock(&info->fork[philo->fork_r]);
 	}
+}
+
+int	init_mutex2(t_info *info)
+{
+	if (pthread_mutex_init(&info->nb_thread_detached_mutex, NULL) != 0)
+	{
+		printf("Error\nMutex init failed\n");
+		return (0);
+	}
+	if (pthread_mutex_init(&info->full_eat, NULL) != 0)
+	{
+		printf("Error\nMutex init failed\n");
+		return (0);
+	}
+	return (1);
+}
+
+int	actions(t_info *info, t_philo *philo)
+{
+	if (ft_lock_eat_unlock(info, philo) == -1)
+		return (0);
+	if (print_status(info, philo->id, "is sleeping", 0) == -1)
+		return (0);
+	if (ft_usleep(info->time_to_sleep, info) == -1)
+		return (0);
+	if (print_status(info, philo->id, "is thinking", 0) == -1)
+		return (0);
+	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:04:53 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 18:52:16 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/03 20:37:28 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_info
 	pthread_mutex_t	dead;
 	pthread_mutex_t	last_meal;
 	pthread_mutex_t	eat;
+	pthread_mutex_t	nb_thread_detached_mutex;
+	pthread_mutex_t	full_eat;
 	t_philo			philo[210];
 }		t_info;
 
@@ -70,5 +72,7 @@ int			create_threads(t_info *info, t_philo *philo);
 int			philo_dead(int *check, int i, t_info *info);
 void		unlock_forks(t_info *info, t_philo *philo, int nb);
 void		*routine(void *arg);
+int			actions(t_info *info, t_philo *philo);
+int			init_mutex2(t_info *info);
 
 #endif
