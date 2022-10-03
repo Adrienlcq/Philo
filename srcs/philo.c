@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/05 14:10:10 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 18:45:48 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/03 10:23:37 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ int	init_philo(t_info *info)
 	i = -1;
 	while (++i < info->nb_philo)
 	{
-		if (pthread_mutex_init(&info->fork[i], NULL) != 0)
+		if (pthread_mutex_init(&info->fork[i], NULL) != 0) // initialisation de quel mutex ?
 		{
 			printf("Error\nMutex init failed\n");
 			return (0);
@@ -39,7 +39,7 @@ int	init_philo(t_info *info)
 
 int	init_mutex(t_info *info)
 {
-	int	i;
+	int	i; // pas besoin ???
 
 	i = -1;
 	if (pthread_mutex_init(&info->print, NULL) != 0)

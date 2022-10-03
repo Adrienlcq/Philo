@@ -6,7 +6,7 @@
 /*   By: adlecler <adlecler@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/09/21 14:02:50 by adlecler          #+#    #+#             */
-/*   Updated: 2022/10/02 18:51:25 by adlecler         ###   ########.fr       */
+/*   Updated: 2022/10/03 10:58:28 by adlecler         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	check_death(t_info *info)
 		while (++i < info->nb_philo && info->is_dead == 0)
 		{
 			if (info->nb_must_eat >= 0)
-				if (check_meals(info, philo) == 1)
+				if (check_meals(info, philo) == 1) // check meals renvoie tjrs 1
 					return (1);
 			pthread_mutex_lock(&info->last_meal);
 			if (ft_get_time() - philo[i].last_meal > info->time_to_die)
