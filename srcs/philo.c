@@ -24,15 +24,17 @@ int	init_philo(t_info *info)
 			printf("Error\nMutex init failed\n");
 			return (0);
 		}
-		info->philo[i].id = i;
+		info->philo[i].id = i + 1;
 		info->philo[i].fork_l = i;
-		if (i == info->nb_philo - 1)
-			info->philo[i].fork_r = 0;
-		else
-			info->philo[i].fork_r = i + 1 % info->nb_philo;
+		info->philo[i].fork_r = i + 1 % info->nb_philo;
 		info->philo[i].info = info;
 		info->philo[i].last_meal = 0;
 		info->philo[i].nb_meals = 0;
+	}
+	if (pthread_mutex_init(&info->fork[i], NULL) != 0)
+	{
+		printf("Error\nMutex init failed\n");
+		return (0);
 	}
 	return (1);
 }

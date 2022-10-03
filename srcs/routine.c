@@ -74,7 +74,7 @@ void	*routine(void *arg)
 	philo = (t_philo *)arg;
 	info = philo->info;
 	if (philo->id % 2)
-		usleep(50000);
+		usleep(10000);
 	while (1)
 	{
 		if (ft_lock_eat_unlock(info, philo) == -1)

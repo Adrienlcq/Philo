@@ -37,7 +37,7 @@ int	philo_dead(int *check, int i, t_info *info)
 {
 	*check = 1;
 	pthread_mutex_unlock(&info->last_meal);
-	print_status(info, i, "died", 1);
+	print_status(info, i + 1, "died", 1);
 	pthread_mutex_lock(&info->dead);
 	info->is_dead = 1;
 	pthread_mutex_unlock(&info->dead);

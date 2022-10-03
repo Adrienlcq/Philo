@@ -45,11 +45,11 @@ typedef struct s_info
 	int				nb_thread_detached;
 	long long		timestamp;
 	pthread_mutex_t	print;
-	pthread_mutex_t	fork[200];
+	pthread_mutex_t	fork[210];
 	pthread_mutex_t	dead;
 	pthread_mutex_t	last_meal;
 	pthread_mutex_t	eat;
-	t_philo			philo[200];
+	t_philo			philo[210];
 }		t_info;
 
 int			ft_isdigit(char *s);
