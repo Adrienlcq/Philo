@@ -123,16 +123,7 @@ int	start_philo(t_info *info)
 	nb_thread_detached = info->nb_thread_detached;
 	pthread_mutex_unlock(&info->nb_thread_detached_mutex);
 	usleep(5000000);
-	//pthread_mutex_lock(&info->nb_thread_detached_mutex);
-	//if (nb_thread_detached != info->nb_philo)
-	//{
-	//	usleep(5555555);
-		//pthread_mutex_unlock(&info->print);
-	//}
-	//pthread_mutex_unlock(&info->nb_thread_detached_mutex);
-	/* while (info->nb_thread_detached != info->nb_philo)
-		usleep(1000); */
-	//usleep(5000000);
-	ft_detach_threads(info);
+	if (!ft_detach_threads(info))
+		return (0);
 	return (1);
 }
